@@ -1,1 +1,1 @@
-include ':app', ':tablayoutdemo'
+include ':app', ':tablayoutdemo', ':jetpackdemo'
