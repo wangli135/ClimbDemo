@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".animation.AnimationDrawableActivity">
+        </activity>
+        <activity android:name=".animation.CrossFadeActivity">
+        </activity>
+        <activity android:name=".animation.CardFlipActivity">
+        </activity>
+        <activity android:name=".animation.CircleRevealActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
