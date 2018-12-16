@@ -16,6 +16,8 @@
         <activity android:name=".animation.CardFlipActivity">
         </activity>
         <activity android:name=".animation.CircleRevealActivity">
+        </activity>
+        <activity android:name=".animation.MoveViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
