@@ -1,1 +1,1 @@
-include ':app', ':tablayoutdemo', ':jetpackdemo', ':behaviordemo'
+include ':app', ':tablayoutdemo', ':jetpackdemo', ':behaviordemo', ':asynclayoutinflater'
