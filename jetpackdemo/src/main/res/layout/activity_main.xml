@@ -48,5 +48,41 @@
             android:layout_height="wrap_content"
             android:text="Enlarge Image"/>
 
+        <Button
+            android:id="@+id/btnLayoutAnimate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Layout Animate"/>
+
+        <Button
+            android:id="@+id/btnLayoutTransition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Layout Transition"/>
+
+        <Button
+            android:id="@+id/btnCustomTransition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Custom Transition"/>
+
+        <Button
+            android:id="@+id/btnActivityTransition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Activity Transition"/>
+
+        <Button
+            android:id="@+id/btnPhysicsAnimate"
+            android:text="Physics Animation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnPropertyAnimator"
+            android:text="Property Animator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 </ScrollView>

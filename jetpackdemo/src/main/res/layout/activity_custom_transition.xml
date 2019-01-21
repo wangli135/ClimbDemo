@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".animation.layoutanimate.TransitionLayoutActivity">
+
+    <RadioGroup
+        android:id="@+id/secneRg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/scene1Rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Scene 1"/>
+
+        <RadioButton
+            android:id="@+id/scene2Rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scene 2"/>
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/scene_root"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secneRg">
+
+        <include layout="@layout/custom_layout_scene_1"/>
+
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

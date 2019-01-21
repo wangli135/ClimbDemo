@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".animation.activitytransition.ActivityTransitionActivity">
+    
+    <Button
+        android:id="@+id/btnExplode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Explode"/>
+
+    <Button
+        android:id="@+id/btnFade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fade"/>
+
+    <RadioGroup
+        android:id="@+id/slideEdgeRg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/topEdgeRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Top"/>
+
+        <RadioButton
+            android:id="@+id/bottomEdgeRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bottom"/>
+
+        <RadioButton
+            android:id="@+id/leftEdgeRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left"/>
+
+        <RadioButton
+            android:id="@+id/rightEdgeRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Right"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnSlide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Slide"/>
+
+    <ImageView
+        android:id="@+id/ivShareIv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pic_11"/>
+
+    <TextView
+        android:id="@+id/tvShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#00FFFF"
+        android:gravity="center"
+        android:padding="6dp"
+        android:text="Share Two View"
+        android:textSize="20sp"/>
+
+</LinearLayout>

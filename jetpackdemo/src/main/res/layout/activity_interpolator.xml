@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".animation.propertyanimator.InterpolatorActivity">
+
+    <Button
+        android:id="@+id/btnMoveView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move"/>
+
+    <TextView
+        android:id="@+id/tvShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFF"
+        android:padding="6dp"
+        android:text="Hello World"
+        app:layout_constraintTop_toBottomOf="@id/btnMoveView"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:text="0"
+        android:id="@+id/tvXShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2F2FFF"
+        android:padding="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tvShow"/>
+
+
+    <RadioGroup
+        android:id="@+id/interpolatorRg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tvXShow">
+
+        <RadioButton
+            android:id="@+id/accDecRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="AccelerateDecelerateInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/lineRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LinearInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/accRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AccelerateInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/decRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DecelerateInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/antiRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AnticipateInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/bounceRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BounceInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/cycleRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CycleInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/overshotRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OvershootInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/antiOvershotRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AnticipateOvershootInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/pathRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PathInterpolator"/>
+
+        <RadioButton
+            android:id="@+id/customRb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CustomInterpolator"/>
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

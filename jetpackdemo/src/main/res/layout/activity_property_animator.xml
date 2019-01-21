@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".animation.propertyanimator.PropertyAnimatorActivity">
+
+    <Button
+        android:id="@+id/btnViewAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Animation"/>
+
+    <Button
+        android:id="@+id/btnVauleAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VauleAnimator"/>
+
+    <Button
+        android:id="@+id/btnObjectAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ObjectAnimator"/>
+
+    <Button
+        android:id="@+id/btnAnimatorSet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AnimatorSet"/>
+
+    <Button
+        android:id="@+id/btnInterpolator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Interpolator"/>
+
+    <Button
+        android:id="@+id/btnStateListAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StateListAnimator"/>
+
+    <Button
+        android:id="@+id/btnBreathView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仿抖音发布按住拍呼吸效果"/>
+
+</LinearLayout>

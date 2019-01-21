@@ -28,6 +28,51 @@
         </activity>
         <activity android:name=".animation.EnlargeImageActivity">
         </activity>
+        <activity android:name=".animation.layoutanimate.LayoutAnimateActivity">
+        </activity>
+        <activity android:name=".animation.layoutanimate.TransitionLayoutActivity">
+        </activity>
+        <activity android:name=".animation.layoutanimate.CustomTransitionActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.ActivityTransitionActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.FadeActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.ExplodeActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.SlideActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.ShareViewActivity">
+        </activity>
+        <activity android:name=".animation.physicsanimation.FlingAnimationActivity">
+        </activity>
+        <activity android:name=".animation.physicsanimation.PhysicsAnimationActivity">
+        </activity>
+        <activity android:name=".animation.physicsanimation.SpringAnimationActivity">
+        </activity>
+        <activity android:name=".animation.physicsanimation.ChainedSpringActivity">
+        </activity>
+        <activity
+            android:name=".animation.physicsanimation.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".animation.propertyanimator.PropertyAnimatorActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.ViewAnimationActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.ValueAnimatorActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.ObjectAnimatorActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.AnimatorSetActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.InterpolatorActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.StateListAnimatorActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.BreathViewActivity">
+        </activity>
     </application>
 
 </manifest>

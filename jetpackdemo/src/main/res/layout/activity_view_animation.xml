@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".animation.propertyanimator.ViewAnimationActivity">
+
+    <Button
+        android:id="@+id/btnViewAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move by View Animation"/>
+
+    <Button
+        android:id="@+id/btnPropertyAnimator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move by Property Animator"
+        app:layout_constraintTop_toBottomOf="@id/btnViewAnimation"/>
+
+    <Button
+        android:id="@+id/btnHello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello"
+        app:layout_constraintTop_toBottomOf="@id/btnPropertyAnimator"/>
+
+    <Button
+        android:id="@+id/btnWorld"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="World"
+        app:layout_constraintTop_toBottomOf="@id/btnHello"/>
+
+
+</android.support.constraint.ConstraintLayout>

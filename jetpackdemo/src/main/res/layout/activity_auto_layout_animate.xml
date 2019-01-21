@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".animation.layoutanimate.LayoutAnimateActivity">
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"/>
+
+    <Button
+        android:id="@+id/btnRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Remove"
+        app:layout_constraintLeft_toRightOf="@id/btnAdd"/>
+
+    <CheckBox
+        android:id="@+id/customAnimateCb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:text="Custom Animate"
+        app:layout_constraintLeft_toRightOf="@id/btnRemove"/>
+
+    <CheckBox
+        android:id="@+id/inCb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:padding="6dp"
+        android:text="In"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"/>
+
+    <CheckBox
+        android:id="@+id/outCb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:padding="6dp"
+        android:text="Out"
+        app:layout_constraintLeft_toRightOf="@id/inCb"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"/>
+
+    <CheckBox
+        android:id="@+id/inChangeCb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:padding="6dp"
+        android:text="In Change"
+        app:layout_constraintLeft_toRightOf="@id/outCb"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"/>
+
+    <CheckBox
+        android:id="@+id/outChangeCb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:padding="6dp"
+        android:text="Out Change"
+        app:layout_constraintLeft_toRightOf="@id/inChangeCb"
+        app:layout_constraintTop_toBottomOf="@id/btnAdd"/>
+
+    <com.xingfeng.jetpackdemo.animation.layoutanimate.FlowLayout
+        android:id="@+id/viewGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inCb"
+        />
+
+</android.support.constraint.ConstraintLayout>
