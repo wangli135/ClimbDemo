@@ -15,8 +15,6 @@ class SlideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val edge = intent.getIntExtra("slideedge", Gravity.TOP)
         with(window) {
-            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-
             enterTransition = Slide().apply {
                 slideEdge = edge
             }

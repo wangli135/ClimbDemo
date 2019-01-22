@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".animation.propertyanimator.KeyFrameActivity">
+
+    <Button
+        android:id="@+id/btnMove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Move"/>
+
+
+    <TextView
+        android:id="@+id/tvShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:padding="6dp"
+        android:text="Hello World"
+        android:textColor="#00FFFF"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/btnMove"/>
+
+</android.support.constraint.ConstraintLayout>

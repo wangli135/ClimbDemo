@@ -15,8 +15,6 @@ class ExplodeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         with(window) {
-            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-
             enterTransition = Explode()
             exitTransition = Explode()
         }

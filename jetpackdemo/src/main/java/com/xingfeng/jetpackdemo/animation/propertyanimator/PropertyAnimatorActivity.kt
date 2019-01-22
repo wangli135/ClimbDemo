@@ -32,5 +32,8 @@ class PropertyAnimatorActivity : AppCompatActivity() {
         btnBreathView.setOnClickListener {
             startActivity(Intent(this, BreathViewActivity::class.java))
         }
+        btnKeyFrame.setOnClickListener {
+            startActivity(Intent(this, KeyFrameActivity::class.java))
+        }
     }
 }

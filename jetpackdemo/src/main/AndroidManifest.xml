@@ -73,6 +73,12 @@
         </activity>
         <activity android:name=".animation.propertyanimator.BreathViewActivity">
         </activity>
+        <activity android:name=".animation.activitytransition.ScaleUpActivity">
+        </activity>
+        <activity android:name=".animation.activitytransition.ThumbnailScaleUpActivity">
+        </activity>
+        <activity android:name=".animation.propertyanimator.KeyFrameActivity">
+        </activity>
     </application>
 
 </manifest>

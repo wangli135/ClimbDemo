@@ -2,6 +2,9 @@ package com.xingfeng.jetpackdemo.animation.activitytransition
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.transition.Explode
+import android.transition.Slide
+import android.view.Gravity
 import android.view.Window
 import com.xingfeng.jetpackdemo.R
 import kotlinx.android.synthetic.main.activity_share_view.*

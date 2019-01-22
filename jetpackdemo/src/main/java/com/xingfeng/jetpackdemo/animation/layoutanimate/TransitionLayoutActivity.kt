@@ -2,9 +2,7 @@ package com.xingfeng.jetpackdemo.animation.layoutanimate
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.transition.Scene
-import android.transition.TransitionInflater
-import android.transition.TransitionManager
+import android.transition.*
 import com.xingfeng.jetpackdemo.R
 import kotlinx.android.synthetic.main.activity_transition_layout.*
 
@@ -30,17 +28,10 @@ class TransitionLayoutActivity : AppCompatActivity() {
                     endScene = Scene.getSceneForLayout(scene_root, R.layout.layout_scene_4, this)
                 }
             }
-//            TransitionManager.go(endScene, TransitionSet().apply {
-//                removeTarget(middleTv)
-//                addTransition(Fade())
-//                addTransition(ChangeBounds())
-//            })
-//            TransitionManager.go(endScene,TransitionInflater.from(this)
-//                    .inflateTransition(R.transition.autotransition))
-            TransitionManager.go(endScene, CustomTransition())
-//            TransitionManager.go(endScene,AutoTransition())
-//            TransitionManager.go(endScene)
+            TransitionManager.go(endScene, TransitionSet().apply {
+                addTransition(Fade())
+                addTransition(ChangeBounds())
+            })
         }
-
     }
 }

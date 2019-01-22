@@ -54,5 +54,4 @@ class CustomTransition : Transition() {
         return null
     }
 
-
 }

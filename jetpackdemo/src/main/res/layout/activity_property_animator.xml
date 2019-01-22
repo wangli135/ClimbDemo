@@ -50,4 +50,10 @@
         android:layout_height="wrap_content"
         android:text="仿抖音发布按住拍呼吸效果"/>
 
+    <Button
+        android:id="@+id/btnKeyFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KeyFrame"/>
+
 </LinearLayout>

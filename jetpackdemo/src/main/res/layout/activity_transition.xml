@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".animation.activitytransition.ActivityTransitionActivity">
-    
+
     <Button
         android:id="@+id/btnExplode"
         android:layout_width="match_parent"
@@ -76,5 +76,19 @@
         android:padding="6dp"
         android:text="Share Two View"
         android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/btnScaleUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scale Up"/>
+
+    <ImageView
+        android:scaleType="centerCrop"
+        android:src="@drawable/pic_11"
+        android:id="@+id/btnThumbnailScaleUp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="Thumbnail Scale Up"/>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.xingfeng.jetpackdemo.animation.activitytransition
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -19,10 +20,6 @@ class ActivityTransitionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition)
-
-//        ivShareIv.transitionName="image"
-//        tvShare.transitionName="text"
-
 
         btnFade.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -64,7 +61,6 @@ class ActivityTransitionActivity : AppCompatActivity() {
         }
 
         ivShareIv.setOnClickListener {
-            ivShareIv.transitionName = "image"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityCompat.startActivity(this,
                         Intent(this, ShareViewActivity::class.java),
@@ -75,7 +71,6 @@ class ActivityTransitionActivity : AppCompatActivity() {
         }
 
         tvShare.setOnClickListener {
-            tvShare.transitionName = "text"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this,
@@ -90,6 +85,24 @@ class ActivityTransitionActivity : AppCompatActivity() {
                 )
             } else {
                 startActivity(Intent(this, ShareViewActivity::class.java))
+            }
+        }
+
+        btnScaleUp.setOnClickListener {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                val options = ActivityOptionsCompat.makeScaleUpAnimation(it!!, it!!.x.toInt(), it!!.y.toInt(), 300, 300)
+                ActivityCompat.startActivity(this, Intent(this, ScaleUpActivity::class.java), options.toBundle())
+            } else {
+                startActivity(Intent(this, ScaleUpActivity::class.java))
+            }
+        }
+
+        btnThumbnailScaleUp.setOnClickListener {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                val options = ActivityOptionsCompat.makeThumbnailScaleUpAnimation(it!!, BitmapFactory.decodeResource(resources, R.drawable.pic_11), btnThumbnailScaleUp.x.toInt(), btnThumbnailScaleUp.y.toInt())
+                ActivityCompat.startActivity(this, Intent(this, ThumbnailScaleUpActivity::class.java), options.toBundle())
+            } else {
+                startActivity(Intent(this, ThumbnailScaleUpActivity::class.java))
             }
         }
 
