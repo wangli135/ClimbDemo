@@ -29,4 +29,8 @@
         <item name="android:text">Expand Title</item>
     </style>
 
+    <style name="CustomBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BottomSheetBehaviorActivity">
+
+    <Button
+        android:id="@+id/btnBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomSheetBehavior"/>
+
+    <Button
+        android:id="@+id/btnBehaviorDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomSheetDialog"
+        app:layout_constraintTop_toBottomOf="@id/btnBehavior"/>
+
+    <Button
+        android:id="@+id/btnBehaviorDialogFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomSheetDialogFragment"
+        app:layout_constraintTop_toBottomOf="@id/btnBehaviorDialog"/>
+
+    <Button
+        android:id="@+id/btnBottomSheetWithRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomSheet With RecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/btnBehaviorDialogFragment"/>
+
+</android.support.constraint.ConstraintLayout>

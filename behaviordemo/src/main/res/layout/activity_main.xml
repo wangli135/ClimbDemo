@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btnBottomSheetBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BottomSheetBehavior"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/btnFirstBehavior"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="First Behavior"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnShowHideBehavior"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ShowHide Behavior"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnCoverHeaderBehavior"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="CoverHeader Behavior"/>-->
+
+
+    <!--<Button-->
+        <!--android:id="@+id/btnSwipeRefreshLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="SwipeRefreshLayout"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnCustomNestedScrollView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Custom Nested Scroll"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnNormalScroll"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Normal Scroll"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btnHeaderBehavior"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Header Behavior"/>-->
+
+</LinearLayout>

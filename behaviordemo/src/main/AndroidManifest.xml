@@ -17,19 +17,40 @@
         <activity android:name=".TestActivity">
         </activity>
         <activity
-            android:name=".ScrollingActivity2"
+            android:name=".AppbarLayoutScrollingActivity"
             android:label="@string/title_activity_scrolling2"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".ScrollingActivity3"
+            android:name=".ColScrollingActivity"
             android:label="@string/title_activity_scrolling3"
             android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".FirstBehaviorActivity">
+        </activity>
+        <activity android:name=".SwipeRefreshLayoutActivity">
+        </activity>
+        <activity android:name=".ShowHideBehaviorActivity">
+        </activity>
+        <activity
+            android:name=".DefaultScrollingActivity"
+            android:label="@string/title_activity_default_scrolling"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".CoverHeaderBehaviorActivity">
+        </activity>
+        <activity android:name=".HeaderBehaviorActivity">
+        </activity>
+        <activity android:name=".BottomSheetBehaviorActivity">
+        </activity>
+        <activity android:name=".BottomSheetListActivity">
         </activity>
     </application>
 

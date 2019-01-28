@@ -78,7 +78,6 @@ class MyNestedScrollViewChild : LinearLayout, NestedScrollingChild2 {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
                 mLastMotionY = event?.y.toInt()
@@ -100,6 +99,4 @@ class MyNestedScrollViewChild : LinearLayout, NestedScrollingChild2 {
 
         return true
     }
-
-
 }
