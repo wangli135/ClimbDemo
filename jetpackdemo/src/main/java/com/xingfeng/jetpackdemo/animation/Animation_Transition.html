@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Android动画及其应用</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="file:///Library/Python/2.7/site-packages/landslide-1.1.6-py2.7.egg/landslide/themes/default/css/print.css">
+    <link rel="stylesheet" media="screen, projection" href="file:///Users/wangli/landslide/landslide/themes/tango/css/screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="file:///Library/Python/2.7/site-packages/landslide-1.1.6-py2.7.egg/landslide/themes/default/js/slides.js"></script>
+    
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-1">
+          <div class="inner">
+            
+            <header><h1>Android动画及其应用</h1></header>
+            
+            
+            <section><p>Android动画主要有三种分类：<br />
+- Frame Animation：帧动画，AnimationDrawable、AnimatedVectorDrawable<br />
+-  View Animation：只能用于设置View，只是改变了显示状态<br />
+-  Property Animation：针对属性，不仅限于View  </p>
+<p>本次分享主要介绍属性动画及其应用场景，主要内容包含：<br />
+1. 属性动画<br />
+2. 模拟物理行为的动画(dynamic-animation支持库)<br />
+3. StateListAnimator<br />
+4. 仿抖音发布按住呼吸效果<br />
+5. Transition    </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-2">
+          <div class="inner">
+            
+            <header><h1>属性动画</h1></header>
+            
+            
+            <section><p>主要API：ValueAnimator、ObjectAnimator、AnimatorSet</p>
+<p>关键概念：TimeInterpolator、TypeEvaluator    </p>
+<p><img alt="原理图" src="https://ws1.sinaimg.cn/large/006tNc79ly1fz7ii7gs4fj30k306o74k.jpg" />   </p>
+<ol>
+<li>根据时间流失/总时长，得到已过时间因子，范围[0,1]</li>
+<li>ValueAnimator调用TimeInterpolator计算得到属性因子，不同Interpolator结果不一样</li>
+<li>得到了插值器的结果后，ValueAnimator会调用TypeEvaluator计算得到具体的属性值，最后更新属性值    </li>
+</ol></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-3">
+          <div class="inner">
+            
+            <header><h2>Interpolator</h2></header>
+            
+            
+            <section><p><img alt="Interpolator Demo" src="https://ws2.sinaimg.cn/large/006tNc79ly1fz8hw9mc51g30bv0jxtx1.gif" width="35%" align="left" />  <br />
+上面的demo中展示了系统自带的插值器以及一个自定义的插值器。默认的是AccelerateDecelerateInterpolator<br />
+  AccelerateDecelerateInterpolator：先加速、再减速，默认的插值器 <br />
+  LinearInterpolator：线性插值器 <br />
+  AccelerateInterpolator：加速 <br />
+  DecelerateInterpolator：减速 <br />
+  AnticipateInterpolator：开始时先反向 <br />
+  BounceInterpolator：达到最终位置会先反弹，类似弹弹球着地的效果 <br />
+  OvershootInterpolator:达到最终位置会超出一些 <br />
+  AnticipateOvershootInterpolator：AnticipateInterpolator与OvershootInterpolator的结合 <br />
+  CycleInterpolator：正弦效果，可以指定回荡的次数 <br />
+  PathInterpolator：根据指定的path进行运动，可以实现贝塞尔曲线</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-4">
+          <div class="inner">
+            
+            <header><h3>自定义Interpolator</h3></header>
+            
+            
+            <section><p><a href="http://inloop.github.io/interpolator/">http://inloop.github.io/interpolator/</a>：这个网站里面有各种Interpolator的效果以及数学公式定义。
+定义一个SpringInterpolator，类似弹簧的震荡效果，代码如下：  </p>
+<pre><code>class SpringInterpolator(val factor: Float) : Interpolator{    
+      override fun getInterpolation(input: Float): Float {
+           return (Math.pow(2.0, -10.0 * input) * 
+           Math.sin((input-factor / 4) * 
+           (2 * Math.PI) / factor) + 1).toFloat()
+    }
+ }
+</code></pre>
+<p>函数表达形式如下图：  </p>
+<p><img alt="SpringInterpolator函数样式" src="https://ws3.sinaimg.cn/large/006tNc79ly1fz8ihmqt9pj30q20pqq5a.jpg"width="30%" height="30%" />  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-5">
+          <div class="inner">
+            
+            <header><h1>基于物理行为的动画</h1></header>
+            
+            
+            <section><p>基于物理行为的动画主要在支持库中，目前支持两种动画：FlingAnimation和SpringAnimation，分别模拟了摩擦力和弹力两种物理场景。    </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-6">
+          <div class="inner">
+            
+            <header><h2>FlingAnimation应用场景</h2></header>
+            
+            
+            <section><h3>Demo</h3>
+<p><img alt="Fling Animation应用场景" src="https://ws3.sinaimg.cn/large/006tNc79ly1fz6bxxvqy5g30bw0jbtjs.gif" width="35%" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-7">
+          <div class="inner">
+            
+            <header><h3>实现</h3></header>
+            
+            
+            <section><p>代码如下：  </p>
+<pre><code> FlingAnimation(ivImg, DynamicAnimation.TRANSLATION_X).apply {
+            setStartVelocity(velocityX)
+            setMinValue(0f)
+            setMaxValue(maxTransitionX!!.toFloat())
+            friction = 1.1f
+            start()
+        }
+</code></pre>
+<ul>
+<li>setStartVelocity()：设置起始速度</li>
+<li>friction：摩擦系数，越大，越快停</li>
+<li>setMinValue、setMaxValue：设置属性值对应的范围区间  </li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-8">
+          <div class="inner">
+            
+            <header><h2>SpringAnimation应用场景</h2></header>
+            
+            
+            <section><h3>Demo</h3>
+<p><img alt="SpringAnimation demo示例" src="https://ws4.sinaimg.cn/large/006tNc79ly1fz7berefrgg30bv0jxe81.gif" width="35%" />  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-9">
+          <div class="inner">
+            
+            <header><h3>实现</h3></header>
+            
+            
+            <section><p>代码如下：  </p>
+<pre><code>val springForce = SpringForce(0f).apply {
+        setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY)
+        setStiffness(SpringForce.STIFFNESS_HIGH)
+    }
+
+SpringAnimation(ivImg, DynamicAnimation.TRANSLATION_X).apply{
+      spring=springForce
+      start()
+}
+</code></pre>
+<p>SpringForce定义着动画的各种属性值，其中有两个重要的属性：DampingRatio和Stiffness。 <br />DampingRatio可以理解成反弹次数，值越大，反弹次数越少；值为1，则不反弹。 <br />
+Stiffness可以理解成要恢复成未拉伸状态所需的时间，值越大，恢复到之前的状态的时间就越短。  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-10">
+          <div class="inner">
+            
+            <header><h3>Chained Spring效果</h3></header>
+            
+            
+            <section><p>联动效果，左边带动中间、中间带动右边，效果如下图：<br />
+<img alt="Chained Spring效果" src="https://ws1.sinaimg.cn/large/006tNc79ly1fz7bsrto3pg30bv0jxtad.gif" width="35%" />  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-11">
+          <div class="inner">
+            
+            
+            <section><p>实现方案：addUpdateListener()+animateToFinalPosition()  </p>
+<p>代码如下： </p>
+<pre><code>val springForce = SpringForce(-600f).apply {
+        dampingRatio = SpringForce.DAMPING_RATIO_HIGH_BOUNCY
+        stiffness = SpringForce.STIFFNESS_LOW
+    }
+    val tvTextSpringAnimation = SpringAnimation(tvPublishText,
+            DynamicAnimation.TRANSLATION_Y)
+    val tvVideoSpringAnimation = SpringAnimation(tvPublishVideo,
+            DynamicAnimation.TRANSLATION_Y).apply {
+        addUpdateListener { animation, value, velocity -&gt;
+            tvTextSpringAnimation.animateToFinalPosition(value)
+        }
+    }
+    val tvPicSpringAnimation = SpringAnimation(tvPublishPic,
+            DynamicAnimation.TRANSLATION_Y).apply {
+        spring = springForce
+        addUpdateListener { dynamicAnimation, value, velocity -&gt;
+            tvVideoSpringAnimation.animateToFinalPosition(value)
+        }
+    }
+    fab.setOnClickListener {
+        tvPicSpringAnimation.start()
+    }
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-12">
+          <div class="inner">
+            
+            <header><h1>StateListAnimator</h1></header>
+            
+            
+            <section><p>StateListAnimator定义一组动画，根据View状态进行不同切换。类似selector，只不过那种指定的是图片，而StateListAnimator指定的是动画。  </p>
+<p><img alt="StateListAnimator Demo" src="https://ws3.sinaimg.cn/large/006tNc79ly1fz9k4zps9lg30bv0jxjxv.gif" width="35%" />   </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-13">
+          <div class="inner">
+            
+            <header><h2>实现</h2></header>
+            
+            
+            <section><p>StateListAnimator主要就是定义不同状态下的动画，主要有三种方式可以实现：<br />
+1. 完全xml定义动画以及设置<br />
+2. xml定义动画+代码设置<br />
+3. 代码定义动画以及设置    </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-14">
+          <div class="inner">
+            
+            <header><h3>完全xml定义动画以及设置</h3></header>
+            
+            
+            <section><p>在res/animator下创建动画文件，根标签selector，然后定义每种状态下的动画，demo中左上角的动画就是这么定义的，如下：  </p>
+<pre><code>&lt;selector xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;item android:state_pressed="true"&gt;
+        ...&lt;/item&gt;
+    &lt;item android:state_pressed="false"&gt;
+        ...&lt;/item&gt;
+&lt;/selector&gt;
+</code></pre>
+<p>主要定义了在按住状态下的缩放动画，重复10次；正常状态下恢复到正常状态。定义好了动画后，只需在xml中使用stateListAnimator进行设置，如下：  </p>
+<pre><code>&lt;ImageView android:clickable="true"
+    android:src="@drawable/pic_11"
+    android:stateListAnimator="@animator/anim_list_state_scale"
+    /&gt;
+</code></pre>
+<blockquote>
+<p>需要注意的是，使用了state_pressed状态后，如果这个View默认是不支持点击的，比如自定义View、ImageView等，那么还需要添加clickable=true，不然是没有效果的，<strong>切记切记。</strong>   </p>
+</blockquote></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              14/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-15">
+          <div class="inner">
+            
+            <header><h3>xml定义动画+代码设置</h3></header>
+            
+            
+            <section><p>demo中右上的动画，就是这种方式，xml定义动画和上面一样，就不多bb了，代码设置如下：  </p>
+<pre><code>cardView.stateListAnimator=
+  AnimatorInflater.loadStateListAnimator(this,R.animator.card_smooth_shadow)
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              15/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-16">
+          <div class="inner">
+            
+            <header><h3>代码定义动画以及设置</h3></header>
+            
+            
+            <section><p>demo中心动的感觉就是通过这种方式设置的，纯代码定义动画。动画效果也是在按下去的时候进行一个无限循环的缩放，正常状态下恢复到正常状态。<br />
+代码如下：  </p>
+<pre><code>val xPressedAnim = ObjectAnimator.ofFloat(ivLike, View.SCALE_X, 1.0f, 1.5f).apply {
+        duration = 1000
+        repeatMode = ValueAnimator.REVERSE
+        repeatCount = ValueAnimator.INFINITE
+    }
+    val yPressedAnim = ObjectAnimator.ofFloat(ivLike, View.SCALE_Y, 1.0f, 1.5f).apply {
+        duration = 1000
+        repeatMode = ValueAnimator.REVERSE
+        repeatCount = ValueAnimator.INFINITE
+    }
+    val xNormalAnim = ObjectAnimator.ofFloat(ivLike, View.SCALE_X, 1.0f).apply {
+        duration = 1000
+    }
+    val yNormalAnim = ObjectAnimator.ofFloat(ivLike, View.SCALE_Y, 1.0f).apply {
+        duration = 1000
+    }
+
+    val pressedAnim = AnimatorSet().apply {
+        play(xPressedAnim).with(yPressedAnim)
+    }
+    val normalAnim = AnimatorSet().apply {
+        play(xNormalAnim).with(yNormalAnim)
+    }
+    //这个不能少，否则没有效果
+    ivLike.isClickable=true
+    ivLike.stateListAnimator = StateListAnimator().apply {
+        addState(intArrayOf(android.R.attr.state_pressed), pressedAnim)
+    //负数表示该状态为false
+     addState(intArrayOf(-android.R.attr.state_pressed), normalAnim)
+    }
+</code></pre>
+<p>代码其实挺简单的，StateListAnimator定义后，通过addState()指定某些方法下的动画，状态都是在android.R.attr.state_XXX下，每种状态有true或者false，如果需要加上false，需要在值前面加上负号就可以了，如上面的代码。  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              16/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-17">
+          <div class="inner">
+            
+            <header><h1>仿抖音发布按住拍呼吸效果</h1></header>
+            
+            
+            <section><p><img alt="仿动因发布按住拍呼吸效果" src="https://ws2.sinaimg.cn/large/006tNc79ly1fzal09s106g30bv0jxdhq.gif" width="35%" /> <br />
+关键点：自定义View、自定义属性配合属性动画、onTouch()根据手指拖动、动画  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              17/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-18">
+          <div class="inner">
+            
+            <header><h2>自定义属性</h2></header>
+            
+            
+            <section><pre><code>var innerRaduisFactor: Float = 0f
+    //内部半径因子，[0,1）
+    set(value) {
+        field = value
+        invalidate()
+    }
+
+val showText = "按住拍"
+
+override fun onDraw(canvas: Canvas?) {
+    super.onDraw(canvas)
+    if (innerRaduisFactor &gt;= MIN_INNER_RADIUS_FACTOR) {
+        paint.style = Paint.Style.STROKE
+        val left = measuredWidth * (1 - innerRaduisFactor) / 2
+        val right = left + (width / 2 - left) * 2
+        paint.strokeWidth = measuredWidth * (1 - innerRaduisFactor) / 2
+        canvas?.drawArc(left, left, right, right, 0f, 360f, false, paint)
+    } else {
+        paint.style = Paint.Style.FILL
+        canvas?.drawCircle(width / 2.0f, height / 2.0f, width / 2.0f, paint)
+        paint.textSize = 40f
+        paint.color = Color.WHITE
+        val textX = (width - paint.measureText(showText)) / 2.0f
+        val textY = height / 2 + Math.abs(paint.fontMetrics.ascent + paint.fontMetrics.descent) / 2
+        canvas?.drawText(showText, 0, showText.length, textX, textY, paint)
+        paint.color = Color.RED
+    }
+}
+</code></pre>
+<p>innerRadiusFactor表示内部半径与外部半径的比例，重置时调用invalidate()触发onDraw()  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              18/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-19">
+          <div class="inner">
+            
+            <header><h2>实现1——StateListAnimator</h2></header>
+            
+            
+            <section><p>在state_pressed=true状态下，尺寸扩大1.5，然后innerRadiusFactor在[0.75,0.9]之间无线震荡；在state_pressed=false状态下，恢复到最初状态</p>
+<pre><code>val breathAnimator: StateListAnimator by lazy {
+    val pressedOuterAnim = AnimatorSet().apply {
+        play(ObjectAnimator.ofFloat(this@BreathView, SCALE_X, 1.0f, 1.5f))
+                .with(ObjectAnimator.ofFloat(this@BreathView, SCALE_Y, 1.0f, 1.5f))
+    }
+    val pressedInnerAnim = ObjectAnimator.ofFloat(this, "innerRaduisFactor", MAX_INNER_RADIUS_FACTOR, MIN_INNER_RADIUS_FACTOR).apply {
+        repeatMode = ValueAnimator.REVERSE
+        repeatCount = ValueAnimator.INFINITE
+        duration = 1000
+    }
+    val pressedAnim = AnimatorSet().apply {
+        play(pressedOuterAnim).before(pressedInnerAnim)
+    }
+    val normalOuterAnim = AnimatorSet().apply {
+        play(ObjectAnimator.ofFloat(this@BreathView, SCALE_X, 1.0f))
+                .with(ObjectAnimator.ofFloat(this@BreathView, SCALE_Y, 1.0f))
+    }
+    val normalInnerAnim = ObjectAnimator.ofFloat(this, "innerRaduisFactor", 0f)
+    val normalAnim = AnimatorSet().apply {
+        play(normalOuterAnim).before(normalInnerAnim)
+    }
+    StateListAnimator().apply {
+        addState(intArrayOf(android.R.attr.state_pressed), pressedAnim)
+        addState(intArrayOf(-android.R.attr.state_pressed), normalAnim)
+    }
+}
+
+init {
+    isClickable = true
+    stateListAnimator = breathAnimator
+}
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              19/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-20">
+          <div class="inner">
+            
+            <header><h2>实现2——onTouch()中控制动画</h2></header>
+            
+            
+            <section><p>在down事件中开启innerRadiusFactor缩放的动画，在up或cancel事件中关闭动画。</p>
+<pre><code>override fun onTouchEvent(event: MotionEvent?): Boolean {
+    when (event?.action) {
+        MotionEvent.ACTION_DOWN -&gt; {
+            myX = x
+            myY = y
+            xDiff = event?.rawX - x
+            yDiff = event?.rawY - y
+            normalAnimator.cancel()
+            pressedAnimtor.start()
+        }
+        MotionEvent.ACTION_MOVE -&gt; {
+            x = event?.rawX - xDiff
+            y = event?.rawY - yDiff
+        }
+        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -&gt; {
+            animate().x(myX).y(myY)
+            pressedAnimtor.cancel()
+            normalAnimator.start()
+        }
+    }
+    return super.onTouchEvent(event)
+}
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              20/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-21">
+          <div class="inner">
+            
+            <header><h1>Transition框架</h1></header>
+            
+            
+            <section><p>Transition框架用于在两个视图之间进行转换，底层是属性动画。两个视图可以是存在于同一个Activity中，也可以是属于不同Activity的。  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              21/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-22">
+          <div class="inner">
+            
+            <header><h2>同一个Activity之间使用Transition</h2></header>
+            
+            
+            <section><p><img alt="同一个Activity之间使用Transition" src="https://ws1.sinaimg.cn/large/006tNc79ly1fze1sz80i4g30bv0jxmzz.gif" width="35%" align="left" />     </p>
+<p>在两个Layout之间进行动画的基本步骤如下：<br />
+1. 为起始和结束Layout创建<a href="https://developer.android.google.cn/reference/android/transition/Scene">Scene</a>对象，一般来说，当前布局就是起始布局；<br />
+2. 创建一个<a href="https://developer.android.google.cn/reference/android/transition/Transition">Transition</a>对象，定义你想要的动画; <br />
+3. 调用TransitionManager.go()方法，系统将会自动进行布局动画。  </p>
+<p>步骤是不是很简单？整个流程图如下：<br />
+<img alt="流程图" src="https://ws2.sinaimg.cn/large/006tNc79ly1fze1ybho5pj30e206iglz.jpg" height="80%" />  </p>
+<pre><code>endScene = Scene.getSceneForLayout(scene_root, R.layout.layout_scene_4, this)
+TransitionManager.go(endScene, TransitionSet().apply {
+            addTransition(Fade())
+            addTransition(ChangeBounds())
+        })
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              22/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-23">
+          <div class="inner">
+            
+            <header><h2>自定义Transition</h2></header>
+            
+            
+            <section><p>Android的Transition框架提供了在两个布局，即Scene之间的自动过渡，内置了AutoTransition、Fade、ChangeBounds动画，除此之外，也提供了给我们自定义Transition的途径。先看个效果：</p>
+<p><img alt="自定义Transition效果" src="https://ws4.sinaimg.cn/large/006tNc79ly1fze79ro0p5g30bv0jxq5n.gif" width="35%" align="left" />  </p>
+<p>自定义Transition的流程是比较简单的，主要可以说是两步：  <br />
+1. 在captureValues()方法中保存刚兴趣的属性值，该方法是captureStartValues()和captureEndValues()的委托；<br />
+2. 在createAnimator()中取出感兴趣的属性，创建属性动画即可 <br />
+</p>
+</section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              23/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-24">
+          <div class="inner">
+            
+            
+            <section>
+              <h3>captureValues()</h3>
+<p>代码框架如下：  </p>
+<pre><code>class CustomTransition : Transition() {
+
+private val BACKGROUND_KEY = "com.xingfeng.jetpackdemo.animation.layoutanimate:CustomTransition:background"
+
+override fun captureStartValues(transitionValues: TransitionValues?) {
+    catureValues(transitionValues)
+}
+
+private fun catureValues(transitionValues: TransitionValues?) {
+    transitionValues?.values!![BACKGROUND_KEY] = transitionValues?.view?.background
+}
+
+override fun captureEndValues(transitionValues: TransitionValues?) {
+    catureValues(transitionValues)
+}
+
+override fun createAnimator(
+    sceneRoot: ViewGroup,
+    startValues: TransitionValues?,
+    endValues: TransitionValues?
+): Animator? {}
+}
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              24/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-25">
+          <div class="inner">
+            
+            
+            <section>
+<h3>createAnimator()</h3>
+<p><pre><code>override fun createAnimator(sceneRoot: ViewGroup?, startValues: TransitionValues?, endValues: TransitionValues?): Animator? {
+    if (startValues == null || endValues == null) {
+        return null
+    }  
+    val startDrawable = startValues?.values!![BACKGROUND_KEY] as Drawable
+val endDrawable = endValues?.values!![BACKGROUND_KEY] as Drawable
+if (startDrawable is ColorDrawable &amp;&amp; endDrawable is ColorDrawable) {
+    val startColor = startDrawable.color
+    val endColor = endDrawable.color
+    if (startColor != endColor) {
+        return ObjectAnimator.ofObject(ArgbEvaluator(), startColor, endColor).apply {
+            addUpdateListener {
+                endValues?.view!!.setBackgroundColor(it?.animatedValue as Int)
+            }
+            duration = 3000
+        }
+    }
+}
+return null
+}
+</code></pre></p>
+</li>
+</ol>
+<p>使用属性动画改变背景色。</p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              25/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-26">
+          <div class="inner">
+            
+            <header><h2>不同Activity之间使用Transition</h2></header>
+            
+            
+            <section><p>转场动画，5.0之前实现overridePendingTransition()方法；5.0之后，提供了一些Material Design的转场动画。<br />
+<img alt="转场动画的动画demo1" src="https://ws2.sinaimg.cn/large/006tNc79ly1fzfeidyvqeg30aq0ipe81.gif" width="35%" align="left" />    </p>
+<p>Android Transition框架提供了三种自带动画，分别是Explode、Fade和Slide，更好的动画效果见下图：<br />
+<img alt="" src="https://ws1.sinaimg.cn/large/006tNc79ly1fzfev5xs4zg30oq0f4hdt.gif" width="60%" />  </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              26/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-27">
+          <div class="inner">
+            
+            <header><h3>使用Transirion开启Activity</h3></header>
+            
+            
+            <section><pre><code>class ExplodeActivity : AppCompatActivity() {
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    with(window) {
+        enterTransition = Explode()
+        exitTransition = Explode()
+    }
+    setContentView(R.layout.activity_explode)
+   }
+}
+</code></pre></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              27/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-28">
+          <div class="inner">
+            
+            <header><h3>Share Elements</h3></header>
+            
+            
+            <section><p>实现这种转场动画，Activity的theme需要设置成：  </p>
+<pre><code>&lt;style name="BaseAppTheme" parent="android:Theme.Material"&gt;
+   &lt;!-- enable window content transitions --&gt;
+   &lt;item name="android:windowActivityTransitions"&gt;true&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+<p>等同于代码：  </p>
+<pre><code>with(window) {
+        requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+    }
+</code></pre>
+<p>启动代码如下：  </p>
+<pre><code>if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityCompat.startActivity(this,
+                    Intent(this, ShareViewActivity::class.java),
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this, ivShareIv, "image").toBundle())
+        } else {
+            startActivity(Intent(this, ShareViewActivity::class.java))
+        }
+</code></pre>
+<p>指定共享的View、transitionName，被启动的页面对应View需要设置成这个transitionName。  </p>
+<p>这个transitionName既可以在xml中设置，也可以在代码中设置： ivImage.transitionName = "image"。 </p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              28/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-29">
+          <div class="inner">
+            
+            <header><h3>多个View的共享实现</h3></header>
+            
+            
+            <section><pre><code>if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this,
+                    UtilPair&lt;View, String&gt;(ivShareIv, "image"),
+                    UtilPair&lt;View, String&gt;(tvShare, "text")
+            )
+            ActivityCompat.startActivity(this,
+                    Intent(this, ShareViewActivity::class.java).apply {
+                        putExtra("showTwoView", true)
+                    },
+                    options.toBundle()
+            )
+        } else {
+            startActivity(Intent(this, ShareViewActivity::class.java))
+        }
+</code></pre>
+<p>使用Pair将每组View与transitionName关联，最后调用ActivityCompat开启新的页面。  </p>
+<blockquote>
+<p>两个页面中分享的View不需要属于同一种类型，比如上面的demo中，不需要都是ImageView，第二个页面中可以是任何View，只匹配transitionName。  </p>
+</blockquote></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              29/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: Android_Animation_Transition.md -->
+      <div class="slide-wrapper">
+        <div class="slide slide-30">
+          <div class="inner">
+            
+            <header><h1>结束</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="Android_Animation_Transition.md">Android_Animation_Transition.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              30/30
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Android动画及其应用</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-2">
+        <th><a href="#slide2">属性动画</a></th>
+        <td><a href="#slide2">2</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-3" class="sub">
+          <th><a href="#slide3">Interpolator</a></th>
+          <td><a href="#slide3">3</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-4">
+        <th><a href="#slide4">-</a></th>
+        <td><a href="#slide4">4</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-5">
+        <th><a href="#slide5">基于物理行为的动画</a></th>
+        <td><a href="#slide5">5</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-6" class="sub">
+          <th><a href="#slide6">FlingAnimation应用场景</a></th>
+          <td><a href="#slide6">6</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-7">
+        <th><a href="#slide7">-</a></th>
+        <td><a href="#slide7">7</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-8" class="sub">
+          <th><a href="#slide8">SpringAnimation应用场景</a></th>
+          <td><a href="#slide8">8</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-9">
+        <th><a href="#slide9">-</a></th>
+        <td><a href="#slide9">9</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-10">
+        <th><a href="#slide10">-</a></th>
+        <td><a href="#slide10">10</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-11">
+        <th><a href="#slide11">-</a></th>
+        <td><a href="#slide11">11</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-12">
+        <th><a href="#slide12">StateListAnimator</a></th>
+        <td><a href="#slide12">12</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-13" class="sub">
+          <th><a href="#slide13">实现</a></th>
+          <td><a href="#slide13">13</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-14">
+        <th><a href="#slide14">-</a></th>
+        <td><a href="#slide14">14</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-15">
+        <th><a href="#slide15">-</a></th>
+        <td><a href="#slide15">15</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-16">
+        <th><a href="#slide16">-</a></th>
+        <td><a href="#slide16">16</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-17">
+        <th><a href="#slide17">仿抖音发布按住拍呼吸效果</a></th>
+        <td><a href="#slide17">17</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-18" class="sub">
+          <th><a href="#slide18">自定义属性</a></th>
+          <td><a href="#slide18">18</a></td>
+        </tr>
+        
+        <tr id="toc-row-19" class="sub">
+          <th><a href="#slide19">实现方式1——StateListAnimator</a></th>
+          <td><a href="#slide19">19</a></td>
+        </tr>
+        
+        <tr id="toc-row-20" class="sub">
+          <th><a href="#slide20">实现方式2——onTouch()方法中控制动画的开启和关闭</a></th>
+          <td><a href="#slide20">20</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-21">
+        <th><a href="#slide21">Transition框架</a></th>
+        <td><a href="#slide21">21</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-22" class="sub">
+          <th><a href="#slide22">同一个Activity之间使用Transition</a></th>
+          <td><a href="#slide22">22</a></td>
+        </tr>
+        
+        <tr id="toc-row-23" class="sub">
+          <th><a href="#slide23">自定义Transition</a></th>
+          <td><a href="#slide23">23</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-24">
+        <th><a href="#slide24">-</a></th>
+        <td><a href="#slide24">24</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-25">
+        <th><a href="#slide25">-</a></th>
+        <td><a href="#slide25">25</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-26" class="sub">
+          <th><a href="#slide26">不同Activity之间使用Transition</a></th>
+          <td><a href="#slide26">26</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-27">
+        <th><a href="#slide27">-</a></th>
+        <td><a href="#slide27">27</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-28">
+        <th><a href="#slide28">-</a></th>
+        <td><a href="#slide28">28</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-29">
+        <th><a href="#slide29">-</a></th>
+        <td><a href="#slide29">29</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-30">
+        <th><a href="#slide30">结束</a></th>
+        <td><a href="#slide30">30</a></td>
+      </tr>
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>
