@@ -1,15 +1,18 @@
 package com.xingfeng.jetpackdemo.animation
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.xingfeng.jetpackdemo.R
 import com.xingfeng.jetpackdemo.animation.activitytransition.ActivityTransitionActivity
 import com.xingfeng.jetpackdemo.animation.layoutanimate.CustomTransitionActivity
 import com.xingfeng.jetpackdemo.animation.layoutanimate.LayoutAnimateActivity
 import com.xingfeng.jetpackdemo.animation.layoutanimate.TransitionLayoutActivity
 import com.xingfeng.jetpackdemo.animation.physicsanimation.PhysicsAnimationActivity
-import com.xingfeng.jetpackdemo.animation.propertyanimator.PropertyAnimatorActivity
+import com.xingfeng.jetpackdemo.animation.propertyanimator.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -65,5 +68,10 @@ class MainActivity : AppCompatActivity() {
         btnPropertyAnimator.setOnClickListener {
             startActivity(Intent(this, PropertyAnimatorActivity::class.java))
         }
+
+        btnCustomProperty.setOnClickListener {
+            startActivity(Intent(this,CustormPropertyActivity::class.java))
+        }
+
     }
 }

@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".animation.propertyanimator.CustormPropertyActivity">
+        </activity>
         <activity android:name=".JetpackMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

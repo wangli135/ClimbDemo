@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/ivCover"
+        tools:src="@drawable/ic_launcher_background"
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
+
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/ivCover"
+        tools:text="test"
+        android:textSize="18sp"
+        android:textColor="#cccccc"
+        android:gravity="center_vertical"
+        android:lines="1"
+        android:id="@+id/tvTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content"/>
+
+</android.support.constraint.ConstraintLayout>
